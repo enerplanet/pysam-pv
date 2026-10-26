@@ -1,0 +1,32 @@
+# Runs the PV service and joins tentacron-net, where callers reach it as
+# pv-service:8080. From the host: localhost:${HOST_PORT}.
+#
+#   docker compose up -d --build
+name: pv-service
+
+services:
+  pv-service:
+    container_name: pv-service
+    build: .
+    image: ${PV_SERVICE_IMAGE:-pv-service:local}
+    environment:
+      WEB_CONCURRENCY: ${WEB_CONCURRENCY:-2}
+    ports:
+      - "${HOST_PORT:-8092}:8080"
+    healthcheck:
+      # The slim base image has no curl or wget.
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    networks:
+      default:
+      tentacron-net:
+    restart: unless-stopped
+
+# Declared with `name:` and no `external:` so the first stack up creates it;
+# every repository joining tentacron-net declares it the same way.
+networks:
+  tentacron-net:
+    name: tentacron-net

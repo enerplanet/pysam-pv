@@ -1,13 +1,15 @@
 # Runs the PV service and joins tentacron-net, where callers reach it as
 # pv-service:8080. From the host: localhost:${HOST_PORT}.
 #
-#   docker compose up -d --build
+#   docker compose -f environment/docker-compose.yml up -d --build
 name: pv-service
 
 services:
   pv-service:
     container_name: pv-service
-    build: .
+    build:
+      context: ..
+      dockerfile: environment/Dockerfile
     image: ${PV_SERVICE_IMAGE:-pv-service:local}
     environment:
       WEB_CONCURRENCY: ${WEB_CONCURRENCY:-2}

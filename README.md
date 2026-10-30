@@ -110,7 +110,7 @@ Errors have the body `{"error": {"code": "...", "message": "...", "details": {..
 ## Run
 
 ```bash
-docker compose up -d --build
+docker compose -f environment/docker-compose.yml up -d --build
 ```
 
 The container is `pv-service` on port 8080 and joins the `tentacron-net`

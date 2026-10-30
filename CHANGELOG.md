@@ -1,0 +1,13 @@
+# Changelog
+
+Notable changes to pysam-pv. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [Unreleased]
+
+### Changed
+
+- `environment/docker-compose.yml` pins the Compose project to `pysam-pv`
+  and names the service `api`, so the container is `pysam-pv-api-1`. On
+  `tentacron-net` it answers to `pysam-pv` and, until callers move,
+  `pv-service`.

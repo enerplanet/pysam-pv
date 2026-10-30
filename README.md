@@ -110,8 +110,13 @@ Errors have the body `{"error": {"code": "...", "message": "...", "details": {..
 ## Run
 
 ```bash
-docker compose -f environment/docker-compose.yml up -d --build
+docker compose -f environment/docker-compose.yml up -d --build                     # build this checkout
+docker compose -f environment/docker-compose.yml up -d --pull always --no-build   # run a published release
 ```
+
+Releases are published to `ghcr.io/enerplanet/pysam-pv` when a `v*.*.*` tag
+is pushed; tag `v0.2.0` publishes as `0.2.0`. `PV_SERVICE_IMAGE_TAG` selects
+the release (default `latest`).
 
 The Compose project is `pysam-pv` and its service `api`, so the container is
 `pysam-pv-api-1`. On the `tentacron-net` network other services reach it as

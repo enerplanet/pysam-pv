@@ -1,7 +1,8 @@
 # Runs the PV service. Callers on tentacron-net address it as pysam-pv:8080;
 # from the host: localhost:${HOST_PORT}.
 #
-#   docker compose -f environment/docker-compose.yml up -d --build
+#   docker compose -f environment/docker-compose.yml up -d --build                     # build this checkout
+#   docker compose -f environment/docker-compose.yml up -d --pull always --no-build   # run the release in PV_SERVICE_IMAGE_TAG
 name: pysam-pv
 
 services:
@@ -9,7 +10,7 @@ services:
     build:
       context: ..
       dockerfile: environment/Dockerfile
-    image: ${PV_SERVICE_IMAGE:-pysam-pv:local}
+    image: ghcr.io/enerplanet/pysam-pv:${PV_SERVICE_IMAGE_TAG:-latest}
     environment:
       WEB_CONCURRENCY: ${WEB_CONCURRENCY:-2}
     ports:

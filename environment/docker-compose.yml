@@ -1,16 +1,15 @@
-# Runs the PV service and joins tentacron-net, where callers reach it as
-# pv-service:8080. From the host: localhost:${HOST_PORT}.
+# Runs the PV service. Callers on tentacron-net address it as pysam-pv:8080;
+# from the host: localhost:${HOST_PORT}.
 #
 #   docker compose -f environment/docker-compose.yml up -d --build
-name: pv-service
+name: pysam-pv
 
 services:
-  pv-service:
-    container_name: pv-service
+  api:
     build:
       context: ..
       dockerfile: environment/Dockerfile
-    image: ${PV_SERVICE_IMAGE:-pv-service:local}
+    image: ${PV_SERVICE_IMAGE:-pysam-pv:local}
     environment:
       WEB_CONCURRENCY: ${WEB_CONCURRENCY:-2}
     ports:
@@ -25,6 +24,10 @@ services:
     networks:
       default:
       tentacron-net:
+        # `api` is registered by other repositories on this network too, so
+        # it is never an address. pv-service is kept until every caller has
+        # moved to pysam-pv.
+        aliases: [pysam-pv, pv-service]
     restart: unless-stopped
 
 # Declared with `name:` and no `external:` so the first stack up creates it;

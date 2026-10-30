@@ -8,3 +8,4 @@ logs/*
 ~$EE-Documentation.docx
 .venv/
 .pytest_cache/
+.vscode/

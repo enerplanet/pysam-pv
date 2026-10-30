@@ -110,11 +110,18 @@ Errors have the body `{"error": {"code": "...", "message": "...", "details": {..
 ## Run
 
 ```bash
-docker compose up -d --build
+docker compose -f environment/docker-compose.yml up -d --build                     # build this checkout
+docker compose -f environment/docker-compose.yml up -d --pull always --no-build   # run a published release
 ```
 
-The container is `pv-service` on port 8080 and joins the `tentacron-net`
-network; from the host it answers on `localhost:8092` (`HOST_PORT`).
+Releases are published to `ghcr.io/enerplanet/pysam-pv` when a `v*.*.*` tag
+is pushed; tag `v0.2.0` publishes as `0.2.0`. `PV_SERVICE_IMAGE_TAG` selects
+the release (default `latest`).
+
+The Compose project is `pysam-pv` and its service `api`, so the container is
+`pysam-pv-api-1`. On the `tentacron-net` network other services reach it as
+`pysam-pv:8080`; the alias `pv-service` still resolves for callers not yet
+moved. From the host it answers on `localhost:8092` (`HOST_PORT`).
 `WEB_CONCURRENCY` sets the number of worker processes (default 2).
 
 Without Docker:

@@ -113,8 +113,10 @@ Errors have the body `{"error": {"code": "...", "message": "...", "details": {..
 docker compose -f environment/docker-compose.yml up -d --build
 ```
 
-The container is `pv-service` on port 8080 and joins the `tentacron-net`
-network; from the host it answers on `localhost:8092` (`HOST_PORT`).
+The Compose project is `pysam-pv` and its service `api`, so the container is
+`pysam-pv-api-1`. On the `tentacron-net` network other services reach it as
+`pysam-pv:8080`; the alias `pv-service` still resolves for callers not yet
+moved. From the host it answers on `localhost:8092` (`HOST_PORT`).
 `WEB_CONCURRENCY` sets the number of worker processes (default 2).
 
 Without Docker:
